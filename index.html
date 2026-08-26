@@ -1,89 +1,35 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1, viewport-fit=cover"
->
-
-<meta
-    name="theme-color"
-    content="#08142f"
->
-
-<meta
-    name="mobile-web-app-capable"
-    content="yes"
->
-
-<meta
-    name="apple-mobile-web-app-capable"
-    content="yes"
->
-
-<meta
-    name="application-name"
-    content="بهینه‌ساز هوشمند فایل"
->
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08142f">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="application-name" content="بهینه‌ساز هوشمند فایل">
 
 <title>بهینه‌ساز هوشمند فایل</title>
 
-<link
-    rel="preconnect"
-    href="https://fonts.googleapis.com"
->
-
-<link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin
->
-
-<link
-    href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@500;600;700;800&display=swap"
-    rel="stylesheet"
->
-
-<script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
-
-<script>
-(function () {
-
-    if (
-        window.Eitaa &&
-        window.Eitaa.WebApp
-    ) {
-
-        if (
-            typeof window.Eitaa.WebApp.ready === 'function'
-        ) {
-            window.Eitaa.WebApp.ready();
-        }
-
-        if (
-            typeof window.Eitaa.WebApp.expand === 'function'
-        ) {
-            window.Eitaa.WebApp.expand();
-        }
-
-        if (
-            typeof window.Eitaa.WebApp.disableVerticalSwipes === 'function'
-        ) {
-            window.Eitaa.WebApp.disableVerticalSwipes();
-        }
-
-    }
-
-})();
-</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@500;600;700;800&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/lamejs@1.2.1/lame.min.js"></script>
 
-<style>
+<script>
+window.Eitaa = window.Eitaa || {};
+window.Eitaa.WebApp = window.Eitaa.WebApp || {
+    ready:function(){},
+    expand:function(){},
+    disableVerticalSwipes:function(){}
+};
 
+window.Eitaa.WebApp.ready();
+window.Eitaa.WebApp.expand();
+window.Eitaa.WebApp.disableVerticalSwipes();
+</script>
+
+<style>
 :root{
     --bg:#071126;
     --panel:#0c1934;
@@ -617,6 +563,10 @@ input[type=range]:disabled{
     line-height:1.9;
 }
 
+/* ==============================
+   درباره برنامه
+============================== */
+
 .about-card{
     position:relative;
     overflow:hidden;
@@ -888,9 +838,7 @@ input[type=range]:disabled{
         width:88px;
         flex-basis:88px;
     }
-
 }
-
 </style>
 </head>
 
@@ -899,41 +847,19 @@ input[type=range]:disabled{
 <div class="app">
 
 <header class="top">
-
     <div class="brand">
-
-        <div class="mini-logo">
-            ⚡
-        </div>
-
+        <div class="mini-logo">⚡</div>
         <div>
-            <b>
-                بهینه‌ساز هوشمند فایل
-            </b>
-
-            <small>
-                برنامک ایتا
-            </small>
+            <b>بهینه‌ساز هوشمند فایل</b>
+            <small>برنامک ایتا</small>
         </div>
-
     </div>
-
 </header>
 
 <section class="hero">
-
-    <div class="hero-logo">
-        ▰
-    </div>
-
-    <h1>
-        بهینه‌ساز هوشمند فایل
-    </h1>
-
-    <p>
-        فشرده‌سازی حرفه‌ای صدا و تصویر
-    </p>
-
+    <div class="hero-logo">▰</div>
+    <h1>بهینه‌ساز هوشمند فایل</h1>
+    <p>فشرده‌سازی حرفه‌ای صدا و تصویر</p>
 </section>
 
 <main id="mainUI">
@@ -969,11 +895,8 @@ input[type=range]:disabled{
         </div>
 
         <div class="file-info">
-
             <b id="fileName"></b>
-
             <small id="fileMeta"></small>
-
         </div>
 
         <button
@@ -986,6 +909,7 @@ input[type=range]:disabled{
     </div>
 
 </div>
+
 
 <div
     class="card settings"
@@ -1017,6 +941,7 @@ input[type=range]:disabled{
 
     </div>
 
+
     <div
         class="row"
         id="manualQualityRow"
@@ -1046,6 +971,7 @@ input[type=range]:disabled{
 
     </div>
 
+
     <div class="row">
 
         <label>
@@ -1071,6 +997,7 @@ input[type=range]:disabled{
 
     </div>
 
+
     <div class="row">
 
         <label>
@@ -1090,6 +1017,7 @@ input[type=range]:disabled{
         </select>
 
     </div>
+
 
     <div
         class="row"
@@ -1136,6 +1064,7 @@ input[type=range]:disabled{
         </div>
 
     </div>
+
 
     <div class="image-info-box">
 
@@ -1191,6 +1120,7 @@ input[type=range]:disabled{
 
 </div>
 
+
 <div
     id="audioSettings"
     style="display:none"
@@ -1221,6 +1151,7 @@ input[type=range]:disabled{
         </div>
 
     </div>
+
 
     <div class="audio-info-box">
 
@@ -1274,6 +1205,7 @@ input[type=range]:disabled{
 
     </div>
 
+
     <div class="compression-info">
 
         حجم تقریبی نهایی:
@@ -1286,6 +1218,7 @@ input[type=range]:disabled{
 
 </div>
 
+
 <button
     id="startBtn"
     class="primary"
@@ -1297,6 +1230,7 @@ input[type=range]:disabled{
 </div>
 
 </main>
+
 
 <section
     class="card progress-card"
@@ -1313,11 +1247,9 @@ input[type=range]:disabled{
     >
 
         <div>
-
             <b id="percent">
                 0%
             </b>
-
         </div>
 
     </div>
@@ -1339,6 +1271,7 @@ input[type=range]:disabled{
 
         </div>
 
+
         <div
             class="step"
             id="stepProcess"
@@ -1353,6 +1286,7 @@ input[type=range]:disabled{
             </span>
 
         </div>
+
 
         <div
             class="step"
@@ -1376,6 +1310,7 @@ input[type=range]:disabled{
     </p>
 
 </section>
+
 
 <section
     class="card result"
@@ -1450,6 +1385,11 @@ input[type=range]:disabled{
 
 </section>
 
+
+<!-- ==============================
+     درباره برنامه
+============================== -->
+
 <section class="card about-card">
 
     <button
@@ -1482,11 +1422,17 @@ input[type=range]:disabled{
 
 </section>
 
+
 <div class="note">
     🔒 پردازش فایل‌ها تا حد امکان در همین دستگاه انجام می‌شود.
 </div>
 
 </div>
+
+
+<!-- ==============================
+     پنجره درباره برنامه
+============================== -->
 
 <div
     class="about-modal"
@@ -1511,62 +1457,59 @@ input[type=range]:disabled{
 
         </div>
 
+
         <div class="about-body">
 
             <div class="about-row">
 
+                <div class="about-label">
+                    طراحی و توسعه
+                </div>
+
                 <div class="about-value">
-                    طراحی و توسعه : حسین بال‌افکن
+                    حسین بال‌افکن
                 </div>
 
             </div>
 
-            <div class="about-row">
-
-                <div class="about-value">
-                    نسخه برنامه : ۱
-                </div>
-
-                <div
-                    class="about-value"
-                    style="margin-top:10px;"
-                >
-                    پشتیبانی و ارتباط در ایتا :
-                    <a
-                        href="https://eitaa.com/Hb_695"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style="color:#36dc90;text-decoration:none;"
-                    >
-                        @Hb_695
-                    </a>
-                </div>
-
-            </div>
 
             <div class="about-row">
+
+                <div class="about-label">
+                    درباره برنامه
+                </div>
 
                 <div class="about-desc">
-                    بهینه‌ساز هوشمند فایل یک ابزار کاربردی برای کاهش حجم فایل‌های تصویری و صوتی است. این برنامک تلاش می‌کند با حفظ کیفیت مطلوب، حجم فایل خروجی را به شکل هوشمند کاهش دهد.
+
+                    بهینه‌ساز هوشمند فایل یک ابزار کاربردی
+                    برای کاهش حجم فایل‌های تصویری و صوتی است.
+                    این برنامک تلاش می‌کند با حفظ کیفیت مطلوب،
+                    حجم فایل خروجی را به شکل هوشمند کاهش دهد.
+
                 </div>
 
-                <div
-                    class="about-label"
-                    style="margin-top:14px;"
-                >
-                    قابلیت‌های اصلی :
+            </div>
+
+
+            <div class="about-row">
+
+                <div class="about-label">
+                    قابلیت‌های اصلی
                 </div>
 
-                <div
-                    class="about-desc"
-                    style="margin-top:4px;"
-                >
-                    فشرده‌سازی تصویر با انتخاب حجم هدف یا کیفیت، تنظیم ابعاد تصویر، انتخاب فرمت خروجی، فشرده‌سازی فایل صوتی با سطوح مختلف بیت‌ریت و نمایش اطلاعات فایل قبل و بعد از پردازش.
+                <div class="about-desc">
+
+                    فشرده‌سازی تصویر با انتخاب حجم هدف یا کیفیت،
+                    تنظیم ابعاد تصویر، انتخاب فرمت خروجی،
+                    فشرده‌سازی فایل صوتی با سطوح مختلف بیت‌ریت
+                    و نمایش اطلاعات فایل پیش و پس از پردازش.
+
                 </div>
 
             </div>
 
         </div>
+
 
         <button
             class="about-close"
@@ -1579,6 +1522,11 @@ input[type=range]:disabled{
     </div>
 
 </div>
+
+
+<!-- ==============================
+     پیام حجم
+============================== -->
 
 <div
     class="modal"
@@ -1595,9 +1543,13 @@ input[type=range]:disabled{
             class="modal-text"
             id="optimizationModalText"
         >
+
             این فایل با تنظیمات فعلی قابل بهینه‌سازی نیست.
+
             <br>
+
             لطفاً کیفیت یا ابعاد را کاهش دهید.
+
         </div>
 
         <button
@@ -1611,6 +1563,11 @@ input[type=range]:disabled{
 
 </div>
 
+
+<!-- ==============================
+     پیام صوت
+============================== -->
+
 <div
     class="modal"
     id="bitrateModal"
@@ -1623,8 +1580,10 @@ input[type=range]:disabled{
         </div>
 
         <div class="modal-text">
+
             برای این فایل بیت‌ریت استاندارد پایین‌تری
             برای فشرده‌سازی وجود ندارد.
+
         </div>
 
         <button
@@ -1637,6 +1596,7 @@ input[type=range]:disabled{
     </div>
 
 </div>
+
 
 <script>
 
@@ -1729,6 +1689,7 @@ const targetValue =
 const targetUnit =
     document.getElementById('targetUnit');
 
+
 function faNumber(value){
 
     return String(value).replace(
@@ -1737,6 +1698,7 @@ function faNumber(value){
     );
 
 }
+
 
 function formatSampleRate(rate){
 
@@ -1771,6 +1733,7 @@ function formatSampleRate(rate){
 
 }
 
+
 function formatSize(bytes){
 
     if(bytes < 1024)
@@ -1792,6 +1755,7 @@ function formatSize(bytes){
 
 }
 
+
 function formatAudioEstimatedSize(bytes){
 
     if(
@@ -1804,7 +1768,8 @@ function formatAudioEstimatedSize(bytes){
 
         return faNumber(
             Math.round(bytes)
-        )+'B';
+        )+
+        'B';
 
     }
 
@@ -1812,7 +1777,8 @@ function formatAudioEstimatedSize(bytes){
 
         return faNumber(
             (bytes/1024).toFixed(1)
-        )+'KB';
+        )+
+        'KB';
 
     }
 
@@ -1820,7 +1786,8 @@ function formatAudioEstimatedSize(bytes){
 
         return faNumber(
             (bytes/1024/1024).toFixed(2)
-        )+'MB';
+        )+
+        'MB';
 
     }
 
@@ -1829,9 +1796,11 @@ function formatAudioEstimatedSize(bytes){
             bytes/
             (1024*1024*1024)
         ).toFixed(2)
-    )+'GB';
+    )+
+    'GB';
 
 }
+
 
 function getExtension(name){
 
@@ -1845,6 +1814,7 @@ function getExtension(name){
 
 }
 
+
 function isTargetMode(){
 
     return (
@@ -1853,6 +1823,7 @@ function isTargetMode(){
     );
 
 }
+
 
 function getImageTargetBytes(){
 
@@ -1890,6 +1861,7 @@ function getImageTargetBytes(){
 
 }
 
+
 function updateQualityOutput(){
 
     const value =
@@ -1907,6 +1879,7 @@ function updateQualityOutput(){
 
 }
 
+
 function updateScaleOutput(){
 
     const value =
@@ -1923,6 +1896,7 @@ function updateScaleOutput(){
         : faNumber(value)+'٪';
 
 }
+
 
 function setOptimizationMode(mode){
 
@@ -1950,6 +1924,11 @@ function setOptimizationMode(mode){
     scheduleImagePreview();
 
 }
+
+
+/* =========================================================
+   MP3
+========================================================= */
 
 function parseMp3FrameHeader(bytes,offset){
 
@@ -2045,6 +2024,7 @@ function parseMp3FrameHeader(bytes,offset){
 
 }
 
+
 function findFirstMp3Frame(bytes){
 
     let start=0;
@@ -2099,6 +2079,7 @@ function findFirstMp3Frame(bytes){
     return null;
 
 }
+
 
 async function analyzeMp3(file){
 
@@ -2193,6 +2174,7 @@ async function analyzeMp3(file){
 
 }
 
+
 function getLowerBitrates(
     sourceBitrate
 ){
@@ -2202,6 +2184,7 @@ function getLowerBitrates(
     );
 
 }
+
 
 function getDegreeBitrate(degree){
 
@@ -2221,6 +2204,7 @@ function getDegreeBitrate(degree){
     ];
 
 }
+
 
 function calculateEstimatedAudioSize(
     targetBitrate
@@ -2248,6 +2232,7 @@ function calculateEstimatedAudioSize(
     return estimatedSize;
 
 }
+
 
 async function analyzeAudioFile(file){
 
@@ -2405,6 +2390,7 @@ async function analyzeAudioFile(file){
 
 }
 
+
 function setupAudioDegrees(){
 
     const lower =
@@ -2447,6 +2433,7 @@ function setupAudioDegrees(){
     updateAudioQuality();
 
 }
+
 
 function updateAudioQuality(){
 
@@ -2505,6 +2492,11 @@ function updateAudioQuality(){
 
 }
 
+
+/* =========================================================
+   انتخاب فایل
+========================================================= */
+
 dropZone.onclick=()=>{
     fileInput.click();
 };
@@ -2535,6 +2527,11 @@ dropZone.ondrop=e=>{
     );
 
 };
+
+
+/* =========================================================
+   دریافت فایل
+========================================================= */
 
 async function handleFile(file){
 
@@ -2632,6 +2629,11 @@ async function handleFile(file){
 
 }
 
+
+/* =========================================================
+   تحلیل تصویر
+========================================================= */
+
 function analyzeImageFile(file){
 
     return new Promise(
@@ -2692,6 +2694,11 @@ function analyzeImageFile(file){
 
 }
 
+
+/* =========================================================
+   ابعاد تصویر
+========================================================= */
+
 function getOutputDimensions(){
 
     if(!imageElement)
@@ -2728,6 +2735,7 @@ function getOutputDimensions(){
 
 }
 
+
 function updateImageDimensionsOnly(){
 
     const dimensions=
@@ -2748,6 +2756,11 @@ function updateImageDimensionsOnly(){
         );
 
 }
+
+
+/* =========================================================
+   زمان‌بندی پیش‌نمایش
+========================================================= */
 
 function scheduleImagePreview(){
 
@@ -2779,6 +2792,7 @@ function scheduleImagePreview(){
 
 }
 
+
 function checkStartButtonState(){
 
     if(
@@ -2794,6 +2808,11 @@ function checkStartButtonState(){
     }
 
 }
+
+
+/* =========================================================
+   Canvas
+========================================================= */
 
 async function getOrCreateCanvas(){
 
@@ -2918,6 +2937,7 @@ async function getOrCreateCanvas(){
 
 }
 
+
 function canvasToBlob(
     canvas,
     type,
@@ -2935,6 +2955,11 @@ function canvasToBlob(
     );
 
 }
+
+
+/* =========================================================
+   کیفیت دستی
+========================================================= */
 
 async function encodeImage(
     type,
@@ -3087,6 +3112,11 @@ async function encodeImage(
     return blob;
 
 }
+
+
+/* =========================================================
+   حجم هدف
+========================================================= */
 
 async function encodeImageForTarget(
     type,
@@ -3253,6 +3283,11 @@ async function encodeImageForTarget(
     return bestBlob;
 
 }
+
+
+/* =========================================================
+   پیش‌نمایش
+========================================================= */
 
 async function updateImageSettingsPreview(){
 
@@ -3459,6 +3494,7 @@ async function updateImageSettingsPreview(){
 
 }
 
+
 async function checkImageLosslessOptimization(){
 
     if(
@@ -3468,6 +3504,11 @@ async function checkImageLosslessOptimization(){
         return;
 
 }
+
+
+/* =========================================================
+   Events
+========================================================= */
 
 quality.oninput=()=>{
 
@@ -3480,6 +3521,7 @@ quality.oninput=()=>{
     scheduleImagePreview();
 
 };
+
 
 imageScale.oninput=()=>{
 
@@ -3497,6 +3539,7 @@ imageScale.oninput=()=>{
 
 };
 
+
 imageFormat.onchange=()=>{
 
     imageBlobCache.clear();
@@ -3506,6 +3549,7 @@ imageFormat.onchange=()=>{
 
 };
 
+
 imageOptimizationMode.onchange=()=>{
 
     setOptimizationMode(
@@ -3514,6 +3558,7 @@ imageOptimizationMode.onchange=()=>{
 
 };
 
+
 targetValue.oninput=()=>{
 
     targetImageBlobCache.clear();
@@ -3521,12 +3566,18 @@ targetValue.oninput=()=>{
 
 };
 
+
 targetUnit.onchange=()=>{
 
     targetImageBlobCache.clear();
     scheduleImagePreview();
 
 };
+
+
+/* =========================================================
+   پیام‌ها
+========================================================= */
 
 function showOptimizationModal(message){
 
@@ -3558,6 +3609,7 @@ function showOptimizationModal(message){
 
 }
 
+
 function closeOptimizationModal(){
 
     document.getElementById(
@@ -3567,6 +3619,7 @@ function closeOptimizationModal(){
 
 }
 
+
 function showBitrateModal(){
 
     document.getElementById(
@@ -3575,6 +3628,7 @@ function showBitrateModal(){
         'flex';
 
 }
+
 
 function closeBitrateModal(){
 
@@ -3586,6 +3640,11 @@ function closeBitrateModal(){
     resetApp();
 
 }
+
+
+/* =========================================================
+   Progress
+========================================================= */
 
 function showProgress(){
 
@@ -3607,6 +3666,7 @@ function showProgress(){
     resetSteps();
 
 }
+
 
 function resetSteps(){
 
@@ -3634,6 +3694,7 @@ function resetSteps(){
 
 }
 
+
 function completeStep(id){
 
     const el=
@@ -3651,6 +3712,7 @@ function completeStep(id){
         '✓';
 
 }
+
 
 function setProgress(p){
 
@@ -3682,6 +3744,11 @@ function setProgress(p){
 
 }
 
+
+/* =========================================================
+   شروع
+========================================================= */
+
 function startCompression(){
 
     if(!selectedFile)
@@ -3707,6 +3774,7 @@ function startCompression(){
         }
 
     }
+
 
     if(
         fileType==='image'
@@ -3773,6 +3841,7 @@ function startCompression(){
 
     }
 
+
     showProgress();
 
     setProgress(5);
@@ -3799,6 +3868,11 @@ function startCompression(){
     },150);
 
 }
+
+
+/* =========================================================
+   تصویر
+========================================================= */
 
 async function compressImage(){
 
@@ -3942,6 +4016,7 @@ async function compressImage(){
 
         }
 
+
         const q=
             parseInt(
                 quality.value,
@@ -4033,6 +4108,11 @@ async function compressImage(){
     }
 
 }
+
+
+/* =========================================================
+   صوت
+========================================================= */
 
 async function compressAudio(){
 
@@ -4323,6 +4403,11 @@ async function compressAudio(){
 
 }
 
+
+/* =========================================================
+   Audio helpers
+========================================================= */
+
 function resampleAudioChannel(
     input,
     fromRate,
@@ -4399,6 +4484,7 @@ function resampleAudioChannel(
 
 }
 
+
 function floatTo16BitPCM(input){
 
     const output=
@@ -4431,6 +4517,11 @@ function floatTo16BitPCM(input){
     return output;
 
 }
+
+
+/* =========================================================
+   نتیجه
+========================================================= */
 
 function finish(
     blob,
@@ -4484,10 +4575,13 @@ function finish(
         )+
         ' درصد';
 
-    if(outputUrl)
-        URL.revokeObjectURL(
-            outputUrl
-        );
+    if(outputUrl){
+        try{
+            URL.revokeObjectURL(
+                outputUrl
+            );
+        }catch(e){}
+    }
 
     outputUrl=
         URL.createObjectURL(
@@ -4499,65 +4593,111 @@ function finish(
             'downloadBtn'
         );
 
-    downloadBtn.onclick=()=>{
+    const fileName=
+        originalFile
+        ? selectedFile.name
+        : selectedFile.name.replace(
+            /\.[^.]+$/,
+            ''
+        )+
+        '_optimized.'+
+        ext;
 
-        const fileName=
-            originalFile
-            ? selectedFile.name
-            : selectedFile.name.replace(
-                /\.[^.]+$/,
-                ''
-            )+
-            '_optimized.'+
-            ext;
+    downloadBtn.onclick=async()=>{
 
-        const webApp=
-            window.Eitaa &&
-            window.Eitaa.WebApp;
+        /*
+         * خروجی فشرده‌سازی یک Blob محلی است.
+         * بنابراین در نسخه بدون هاست، URL آن از نوع blob: است
+         * و نمی‌توان آن را به Eitaa.WebApp.downloadFile داد؛
+         * آن API به URL واقعی HTTPS نیاز دارد.
+         */
 
-        if(
-            webApp &&
-            typeof webApp.downloadFile==='function'
-        ){
+        let downloaded=false;
 
-            try{
+        /* مرحله ۱: دانلود استاندارد WebView اندروید */
+        try{
+            const a=
+                document.createElement('a');
 
-                webApp.downloadFile({
-                    url:outputUrl,
-                    file_name:fileName
-                });
+            a.href=outputUrl;
+            a.download=fileName;
+            a.target='_blank';
+            a.rel='noopener';
+            a.style.display='none';
 
-                return;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
 
-            }catch(error){}
+            downloaded=true;
+        }catch(e){}
 
+        if(downloaded){
+            setTimeout(()=>{
+                try{
+                    window.open(
+                        outputUrl,
+                        '_blank'
+                    );
+                }catch(e){}
+            },700);
+            return;
         }
 
-        const a=
-            document.createElement(
-                'a'
+        /* مرحله ۲: اشتراک‌گذاری فایل با Android WebView */
+        try{
+            if(
+                navigator.share &&
+                navigator.canShare
+            ){
+                const file=
+                    new File(
+                        [blob],
+                        fileName,
+                        {type:blob.type || 'application/octet-stream'}
+                    );
+
+                if(
+                    navigator.canShare({files:[file]})
+                ){
+                    await navigator.share({
+                        files:[file],
+                        title:'فایل فشرده‌شده',
+                        text:'فایل فشرده‌شده توسط بهینه‌ساز هوشمند فایل'
+                    });
+                    return;
+                }
+            }
+        }catch(e){
+            if(e && e.name==='AbortError') return;
+        }
+
+        /* مرحله ۳: بازکردن Blob به عنوان آخرین راه محلی */
+        try{
+            const opened=
+                window.open(
+                    outputUrl,
+                    '_blank'
+                );
+
+            if(!opened){
+                alert(
+                    'دانلود خودکار توسط محیط ایتا مسدود شد. فایل در حال آماده‌سازی است؛ در صفحه بازشده گزینه ذخیره را انتخاب کنید.'
+                );
+            }
+        }catch(e){
+            alert(
+                'محیط ایتا اجازه دانلود مستقیم این فایل را نداد. لطفاً فایل را از صفحه بازشده ذخیره کنید.'
             );
-
-        a.href=
-            outputUrl;
-
-        a.download=
-            fileName;
-
-        a.style.display=
-            'none';
-
-        document.body.appendChild(
-            a
-        );
-
-        a.click();
-
-        a.remove();
-
+        }
     };
 
 }
+
+
+/* =========================================================
+   درباره برنامه
+========================================================= */
 
 const aboutButton =
     document.getElementById(
@@ -4603,6 +4743,11 @@ aboutModal.addEventListener(
 
     }
 );
+
+
+/* =========================================================
+   پاکسازی
+========================================================= */
 
 function resetPreviewResources(){
 
@@ -4654,6 +4799,7 @@ function resetPreviewResources(){
     }
 
 }
+
 
 function resetApp(){
 
@@ -4836,10 +4982,16 @@ function resetApp(){
 
 }
 
+
+/* =========================================================
+   Events
+========================================================= */
+
 audioQuality.addEventListener(
     'input',
     updateAudioQuality
 );
+
 
 document.getElementById(
     'bitrateModal'
@@ -4859,6 +5011,7 @@ document.getElementById(
     }
 );
 
+
 document.getElementById(
     'optimizationModal'
 ).addEventListener(
@@ -4876,6 +5029,7 @@ document.getElementById(
 
     }
 );
+
 
 resetApp();
 
