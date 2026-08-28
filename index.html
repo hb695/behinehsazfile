@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست خروجی مینی‌اپ ایتا</title>
+    <style>
+        body { font-family: Tahoma, Arial, sans-serif; padding: 20px; }
+        textarea { width: 100%; margin-bottom: 10px; }
+        button { padding: 10px 20px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h2>تست دانلود فایل در ایتا</h2>
+    <textarea id="myText" rows="5">سلام! این یک متن تستی برای بررسی دانلود در مینی‌اپ ایتا است.</textarea>
+    <br>
+    <button id="downloadBtn">دانلود / مشاهده فایل</button>
+
+    <script>
+        // ۱. بررسی وجود شیء ایتا و راه‌اندازی (ساختار ایمن و استاندارد)
+        if (typeof window.Eitaa !== 'undefined') {
+            console.log("مینی‌اپ ایتا شناسایی شد.");
+            // در صورت نیاز به راه‌اندازی خاصی از سمت API ایتا، اینجا قرار می‌گیرد
+        }
+
+        const downloadBtn = document.getElementById('downloadBtn');
+        const myText = document.getElementById('myText');
+
+        // ۲. تعریف رویداد کلیک دکمه
+        downloadBtn.onclick = function() {
+            const textContent = myText.value;
+            
+            // ساخت فایل در حافظه
+            const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+            
+            // ساخت آدرس موقت (URL) برای فایل
+            const url = URL.createObjectURL(blob);
+            
+            // تلاش برای باز کردن آدرس در یک صفحه/تب جدید به جای دانلود مستقیم
+            window.open(url, '_blank');
+            
+            // آزادسازی حافظه بعد از چند ثانیه
+            setTimeout(() => {
+                URL.revokeObjectURL(url);
+            }, 3000);
+        };
+    </script>
+</body>
+</html>
