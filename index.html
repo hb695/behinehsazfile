@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تست دریافت اطلاعات کاربر در ایتا</title>
+    <style>
+        body { font-family: Tahoma, Arial, sans-serif; padding: 20px; text-align: center; }
+        .card { border: 1px solid #ccc; padding: 15px; border-radius: 8px; background-color: #f9f9f9; }
+        .status { color: green; font-weight: bold; }
+    </style>
+    <!-- اسکریپت اصلی مینی‌اپ ایتا -->
+    <script src="https://eitaa.com/eitaa-web-app.js"></script>
+</head>
+<body>
+
+    <h2>تست اتصال به ایتا 🤖</h2>
+    <div class="card">
+        <p>وضعیت برنامه: <span id="status" class="status">در حال بررسی...</span></p>
+        <p>شناسه کاربر (User ID): <strong id="userId">دریافت نشد</strong></p>
+        <p>نام کاربر: <strong id="userName">دریافت نشد</strong></p>
+    </div>
+
+    <script>
+        // بررسی وجود شیء ایتا
+        if (window.Eitaa && window.Eitaa.WebApp) {
+            
+            // ۱. تنظیمات استاندارد ایتا
+            window.Eitaa.WebApp.ready(); //[cite: 1]
+            window.Eitaa.WebApp.expand(); //[cite: 1]
+            window.Eitaa.WebApp.disableVerticalSwipes(); //[cite: 1]
+
+            document.getElementById('status').innerText = "متصل به ایتا ✅";
+
+            // ۲. استخراج اطلاعات کاربر
+            const user = window.Eitaa.WebApp.initDataUnsafe?.user;
+
+            if (user) {
+                document.getElementById('userId').innerText = user.id;
+                document.getElementById('userName').innerText = user.first_name || 'بدون نام';
+            } else {
+                document.getElementById('userId').innerText = "اطلاعات کاربر در دسترس نیست";
+            }
+
+        } else {
+            document.getElementById('status').innerText = "خطا: اسکریپت ایتا یافت نشد ❌";
+        }
+    </script>
+</body>
+</html>
