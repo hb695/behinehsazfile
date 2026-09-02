@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, viewport-fit=cover"
+    >
+
+    <meta
+        name="theme-color"
+        content="#08142f"
+    >
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
+    >
+
+    <title>تست Worker ایتا و Backblaze B2</title>
+
+    <script src="https://developer.eitaa.com/eitaa-web-app.js"></script>
+
+    <style>
+
+        *{
+            box-sizing:border-box;
+        }
+
+        body{
+            margin:0;
+            padding:20px;
+            min-height:100vh;
+            background:
+                linear-gradient(
+                    160deg,
+                    #08142d 0%,
+                    #071126 60%,
+                    #0a1030 100%
+                );
+            color:#fff;
+            font-family:
+                Tahoma,
+                Arial,
+                sans-serif;
+        }
+
+        .container{
+            max-width:600px;
+            margin:auto;
+        }
+
+        h1{
+            text-align:center;
+            font-size:22px;
+            margin:10px 0 24px;
+        }
+
+        .card{
+            background:#10204a;
+            border:1px solid #304a7f;
+            border-radius:18px;
+            padding:18px;
+            margin-bottom:15px;
+            box-shadow:
+                0 15px 40px rgba(0,0,0,.25);
+        }
+
+        .status-title{
+            font-size:14px;
+            font-weight:bold;
+            margin-bottom:9px;
+        }
+
+        .status{
+            padding:14px;
+            border-radius:12px;
+            background:#172b59;
+            line-height:2;
+            font-size:13px;
+            word-break:break-word;
+        }
+
+        .info{
+            margin-top:12px;
+            padding:12px;
+            background:#0b1834;
+            border-radius:11px;
+            border:1px solid #283f6e;
+            font-size:12px;
+            line-height:2;
+        }
+
+        input[type=file]{
+            width:100%;
+            margin-top:15px;
+            padding:12px;
+            border-radius:10px;
+            background:#fff;
+            color:#111;
+            font-size:13px;
+        }
+
+        button{
+            width:100%;
+            border:0;
+            border-radius:13px;
+            padding:14px;
+            margin-top:12px;
+            font-family:inherit;
+            font-size:14px;
+            font-weight:bold;
+            cursor:pointer;
+        }
+
+        #uploadBtn{
+            background:
+                linear-gradient(
+                    90deg,
+                    #6734ef,
+                    #20b8ec
+                );
+            color:#fff;
+        }
+
+        #downloadBtn{
+            display:none;
+            background:
+                linear-gradient(
+                    90deg,
+                    #129653,
+                    #22c87a
+                );
+            color:#fff;
+        }
+
+        button:disabled{
+            opacity:.5;
+            cursor:not-allowed;
+        }
+
+        .result{
+            display:none;
+            margin-top:15px;
+            padding:14px;
+            border-radius:12px;
+            background:#07152f;
+            font-size:12px;
+            line-height:2;
+            direction:ltr;
+            text-align:left;
+            word-break:break-all;
+            white-space:pre-wrap;
+        }
+
+        .success{
+            border:1px solid #2acb79;
+        }
+
+        .error{
+            border:1px solid #ff4d5c;
+        }
+
+        .small{
+            margin-top:10px;
+            color:#9eaccb;
+            font-size:11px;
+            line-height:1.9;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>
+        🧪 تست اتصال Worker و Backblaze B2
+    </h1>
+
+
+    <div class="card">
+
+        <div class="status-title">
+            وضعیت اتصال
+        </div>
+
+        <div
+            id="status"
+            class="status"
+        >
+            در حال بررسی Worker...
+        </div>
+
+        <div class="info">
+
+            <strong>
+                Worker:
+            </strong>
+
+            <br>
+
+            https://eitaa-file-server.kh861396.workers.dev/
+
+            <br><br>
+
+            <strong>
+                Bucket:
+            </strong>
+
+            <br>
+
+            eitaa-optimizer-files
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="status-title">
+            تست آپلود
+        </div>
+
+        <div class="small">
+            برای تست اولیه یک تصویر کوچک JPG یا PNG انتخاب کنید.
+            بهتر است حجم فایل کمتر از 1 مگابایت باشد.
+        </div>
+
+        <input
+            id="fileInput"
+            type="file"
+        >
+
+        <button
+            id="uploadBtn"
+        >
+            📤 آپلود فایل به Backblaze B2
+        </button>
+
+        <button
+            id="downloadBtn"
+        >
+            📥 تست دانلود فایل
+        </button>
+
+        <div
+            id="result"
+            class="result"
+        ></div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+ * =====================================================
+ * آدرس Worker
+ * =====================================================
+ */
+
+const WORKER_URL =
+    "https://eitaa-file-server.kh861396.workers.dev/";
+
+
+/*
+ * =====================================================
+ * راه‌اندازی SDK ایتا
+ * =====================================================
+ */
+
+try{
+
+    if(
+        window.Eitaa &&
+        window.Eitaa.WebApp
+    ){
+
+        if(
+            typeof
+            window.Eitaa.WebApp.ready ===
+            "function"
+        ){
+            window.Eitaa.WebApp.ready();
+        }
+
+        if(
+            typeof
+            window.Eitaa.WebApp.expand ===
+            "function"
+        ){
+            window.Eitaa.WebApp.expand();
+        }
+
+        if(
+            typeof
+            window.Eitaa.WebApp.disableVerticalSwipes ===
+            "function"
+        ){
+            window.Eitaa.WebApp.disableVerticalSwipes();
+        }
+    }
+
+}catch(error){
+
+    console.log(
+        "Eitaa SDK error:",
+        error
+    );
+}
+
+
+/*
+ * =====================================================
+ * عناصر صفحه
+ * =====================================================
+ */
+
+const fileInput =
+    document.getElementById(
+        "fileInput"
+    );
+
+const uploadBtn =
+    document.getElementById(
+        "uploadBtn"
+    );
+
+const downloadBtn =
+    document.getElementById(
+        "downloadBtn"
+    );
+
+const statusBox =
+    document.getElementById(
+        "status"
+    );
+
+const resultBox =
+    document.getElementById(
+        "result"
+    );
+
+
+/*
+ * لینک دانلود
+ */
+
+let downloadUrl = "";
+
+
+/*
+ * نام فایل
+ */
+
+let finalFileName = "";
+
+
+/*
+ * =====================================================
+ * نمایش وضعیت
+ * =====================================================
+ */
+
+function setStatus(message){
+
+    statusBox.textContent =
+        message;
+}
+
+
+/*
+ * =====================================================
+ * نمایش نتیجه
+ * =====================================================
+ */
+
+function showResult(
+    text,
+    type
+){
+
+    resultBox.style.display =
+        "block";
+
+    resultBox.className =
+        "result " +
+        (
+            type ||
+            ""
+        );
+
+    resultBox.textContent =
+        text;
+}
+
+
+/*
+ * =====================================================
+ * تست اولیه Worker
+ * =====================================================
+ */
+
+async function testWorker(){
+
+    try{
+
+        setStatus(
+            "⏳ در حال بررسی Worker..."
+        );
+
+
+        const response =
+            await fetch(
+                WORKER_URL,
+                {
+                    method:"GET",
+                    cache:"no-store"
+                }
+            );
+
+
+        const text =
+            await response.text();
+
+
+        if(
+            !response.ok
+        ){
+
+            throw new Error(
+                "HTTP " +
+                response.status +
+                "\n" +
+                text
+            );
+        }
+
+
+        /*
+         * Worker جدید باید JSON برگرداند.
+         */
+
+        let data;
+
+        try{
+
+            data =
+                JSON.parse(
+                    text
+                );
+
+        }catch(e){
+
+            /*
+             * اگر نسخه Worker قدیمی باشد
+             * ممکن است متن ساده برگرداند.
+             */
+
+            data = null;
+        }
+
+
+        if(
+            data &&
+            data.success
+        ){
+
+            setStatus(
+                "✅ Worker فعال است و پاسخ صحیح می‌دهد."
+            );
+
+        }else{
+
+            setStatus(
+                "✅ Worker قابل دسترسی است."
+            );
+        }
+
+
+    }catch(error){
+
+        console.error(
+            "Worker test error:",
+            error
+        );
+
+        setStatus(
+            "❌ اتصال به Worker برقرار نشد."
+        );
+
+        showResult(
+            error.message ||
+            String(error),
+            "error"
+        );
+    }
+}
+
+
+/*
+ * =====================================================
+ * آپلود فایل
+ * =====================================================
+ */
+
+uploadBtn.addEventListener(
+    "click",
+    async()=>{
+
+        const file =
+            fileInput.files[0];
+
+
+        /*
+         * بررسی فایل
+         */
+
+        if(!file){
+
+            setStatus(
+                "⚠️ ابتدا یک فایل انتخاب کنید."
+            );
+
+            return;
+        }
+
+
+        /*
+         * بررسی حجم آزمایشی
+         */
+
+        if(
+            file.size >
+            50 * 1024 * 1024
+        ){
+
+            setStatus(
+                "❌ حجم فایل بیشتر از ۵۰ مگابایت است."
+            );
+
+            return;
+        }
+
+
+        uploadBtn.disabled =
+            true;
+
+        downloadBtn.style.display =
+            "none";
+
+        resultBox.style.display =
+            "none";
+
+
+        try{
+
+            setStatus(
+                "⏳ در حال ارسال فایل به Cloudflare Worker..."
+            );
+
+
+            /*
+             * FormData
+             */
+
+            const formData =
+                new FormData();
+
+            formData.append(
+                "file",
+                file,
+                file.name
+            );
+
+
+            /*
+             * ارسال فایل
+             */
+
+            const response =
+                await fetch(
+                    WORKER_URL,
+                    {
+                        method:"POST",
+                        body:formData,
+                        cache:"no-store"
+                    }
+                );
+
+
+            /*
+             * متن خام پاسخ
+             */
+
+            const responseText =
+                await response.text();
+
+
+            console.log(
+                "HTTP Status:",
+                response.status
+            );
+
+            console.log(
+                "Worker response:",
+                responseText
+            );
+
+
+            /*
+             * تبدیل پاسخ به JSON
+             */
+
+            let result;
+
+            try{
+
+                result =
+                    JSON.parse(
+                        responseText
+                    );
+
+            }catch(e){
+
+                throw new Error(
+                    "پاسخ Worker معتبر نیست:\n\n" +
+                    responseText
+                );
+            }
+
+
+            /*
+             * بررسی HTTP
+             */
+
+            if(
+                !response.ok
+            ){
+
+                throw new Error(
+                    "Worker خطا داد.\n\n" +
+                    "HTTP: " +
+                    response.status +
+                    "\n\n" +
+                    JSON.stringify(
+                        result,
+                        null,
+                        2
+                    )
+                );
+            }
+
+
+            /*
+             * بررسی نتیجه
+             */
+
+            if(
+                !result.success
+            ){
+
+                throw new Error(
+                    "آپلود موفق نبود.\n\n" +
+                    JSON.stringify(
+                        result,
+                        null,
+                        2
+                    )
+                );
+            }
+
+
+            /*
+             * Worker باید downloadUrl برگرداند.
+             */
+
+            if(
+                !result.downloadUrl
+            ){
+
+                throw new Error(
+                    "فایل ذخیره شد اما Worker لینک دانلود برنگرداند.\n\n" +
+                    JSON.stringify(
+                        result,
+                        null,
+                        2
+                    )
+                );
+            }
+
+
+            /*
+             * ذخیره لینک
+             */
+
+            downloadUrl =
+                result.downloadUrl;
+
+
+            finalFileName =
+                (
+                    result.file &&
+                    result.file.name
+                )
+                ?
+                    result.file.name
+                :
+                    file.name;
+
+
+            /*
+             * نمایش موفقیت
+             */
+
+            setStatus(
+                "✅ فایل با موفقیت در Backblaze B2 ذخیره شد."
+            );
+
+
+            showResult(
+                "نام فایل:\n" +
+                finalFileName +
+
+                "\n\n" +
+
+                "حجم:\n" +
+                (
+                    file.size /
+                    1024
+                ).toFixed(2) +
+                " KB" +
+
+                "\n\n" +
+
+                "Object Key:\n" +
+                (
+                    result.file &&
+                    result.file.key
+                        ?
+                            result.file.key
+                        :
+                            "نامشخص"
+                ) +
+
+                "\n\n" +
+
+                "Download URL:\n" +
+                downloadUrl,
+
+                "success"
+            );
+
+
+            /*
+             * فعال کردن دانلود
+             */
+
+            downloadBtn.style.display =
+                "block";
+
+
+        }catch(error){
+
+            console.error(
+                "Upload error:",
+                error
+            );
+
+
+            setStatus(
+                "❌ آپلود فایل ناموفق بود."
+            );
+
+
+            showResult(
+                error.message ||
+                String(error),
+
+                "error"
+            );
+
+        }finally{
+
+            uploadBtn.disabled =
+                false;
+        }
+
+    }
+);
+
+
+/*
+ * =====================================================
+ * تست دانلود
+ * =====================================================
+ */
+
+downloadBtn.addEventListener(
+    "click",
+    async()=>{
+
+        if(!downloadUrl){
+
+            setStatus(
+                "❌ لینک دانلود وجود ندارد."
+            );
+
+            return;
+        }
+
+
+        try{
+
+            setStatus(
+                "⏳ در حال ارسال درخواست دانلود به ایتا..."
+            );
+
+
+            /*
+             * حالت داخل ایتا
+             */
+
+            if(
+                window.Eitaa &&
+                window.Eitaa.WebApp &&
+                typeof
+                window.Eitaa.WebApp.downloadFile ===
+                "function"
+            ){
+
+                window.Eitaa.WebApp.downloadFile({
+
+                    url:
+                        downloadUrl,
+
+                    file_name:
+                        finalFileName
+
+                });
+
+
+                setStatus(
+                    "✅ درخواست دانلود به ایتا ارسال شد."
+                );
+
+
+                return;
+            }
+
+
+            /*
+             * حالت خارج از ایتا
+             */
+
+            const link =
+                document.createElement(
+                    "a"
+                );
+
+            link.href =
+                downloadUrl;
+
+            link.download =
+                finalFileName;
+
+            link.target =
+                "_blank";
+
+            document.body.appendChild(
+                link
+            );
+
+            link.click();
+
+            link.remove();
+
+
+            setStatus(
+                "📥 درخواست دانلود ارسال شد."
+            );
+
+
+        }catch(error){
+
+            console.error(
+                "Download error:",
+                error
+            );
+
+
+            setStatus(
+                "❌ خطا هنگام دانلود."
+            );
+
+
+            showResult(
+                error.message ||
+                String(error),
+
+                "error"
+            );
+        }
+    }
+);
+
+
+/*
+ * =====================================================
+ * شروع تست
+ * =====================================================
+ */
+
+testWorker();
+
+</script>
+
+</body>
+</html>
